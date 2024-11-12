@@ -1,40 +1,73 @@
-Below are the steps to get your plugin running. You can also find instructions at:
+# Figma to Logic Pixels Converter
 
-  https://www.figma.com/plugin-docs/plugin-quickstart-guide/
+A Figma plugin that converts Figma's letter spacing and line height values to Flutter-compatible logic pixels. Simply select a text layer to automatically calculate the conversion.
 
-This plugin template uses Typescript and NPM, two standard tools in creating JavaScript applications.
+## Features
 
-First, download Node.js which comes with NPM. This will allow you to install TypeScript and other
-libraries. You can find the download link here:
+- Automatic value detection from selected text layers
+- Letter spacing conversion from Figma percentage to logic pixels
+- Line height conversion from Figma values to logic pixels
+- Copy results with one click
+- Works in both Figma and Dev mode
 
-  https://nodejs.org/en/download/
+## Development Setup
 
-Next, install TypeScript using the command:
+1. Clone this repository
 
-  npm install -g typescript
+bash
+git clone [your-repository-url]
 
-Finally, in the directory of your plugin, get the latest type definitions for the plugin API by running:
+2. Install dependencies
 
-  npm install --save-dev @figma/plugin-typings
+bash
+npm install
 
-If you are familiar with JavaScript, TypeScript will look very familiar. In fact, valid JavaScript code
-is already valid Typescript code.
+3. Install Figma Plugin Typings
+bash
+npm install --save-dev @figma/plugin-typings
 
-TypeScript adds type annotations to variables. This allows code editors such as Visual Studio Code
-to provide information about the Figma API while you are writing code, as well as help catch bugs
-you previously didn't notice.
+4. Build the plugin
+bash
+npm run build
 
-For more information, visit https://www.typescriptlang.org/
+## Usage
 
-Using TypeScript requires a compiler to convert TypeScript (code.ts) into JavaScript (code.js)
-for the browser to run.
+1. Select a text layer in Figma
+2. The plugin will automatically detect and fill in the values
+3. Choose between Letter Spacing or Line Height conversion
+4. View the converted value in logic pixels
+5. Click the copy button to copy the result
 
-We recommend writing TypeScript code using Visual Studio code:
+## Calculations
 
-1. Download Visual Studio Code if you haven't already: https://code.visualstudio.com/.
-2. Open this directory in Visual Studio Code.
-3. Compile TypeScript to JavaScript: Run the "Terminal > Run Build Task..." menu item,
-    then select "npm: watch". You will have to do this again every time
-    you reopen Visual Studio Code.
+### Letter Spacing
+- Formula: `Result = (Spacing % + 100) × Base Size`
+- Example: If font size is 12px and letter spacing is -5%, result will be -0.6 logic pixels
 
-That's it! Visual Studio Code will regenerate the JavaScript file every time you save.
+### Line Height
+- Supports both percentage and pixel values
+- Automatically converts to appropriate logic pixels for Flutter
+
+## Development
+
+- Built with TypeScript
+- Uses Figma Plugin API
+- Supports both Figma and Dev mode
+- Includes automatic value detection
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- Figma Plugin API Documentation
+- Flutter Documentation for text styling
