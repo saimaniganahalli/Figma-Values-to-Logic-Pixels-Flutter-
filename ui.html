@@ -30,6 +30,14 @@
         margin-bottom: 8px;
       }
 
+      .description {
+        color: #666;
+        font-size: 13px;
+        line-height: 1.4;
+        margin-bottom: 16px;
+        font-weight: 400;
+      }
+
       .tabs {
         display: flex;
         gap: 8px;
@@ -43,11 +51,14 @@
         cursor: pointer;
         color: #666;
         background: transparent;
+        font-family: 'Manrope', sans-serif;
+        font-weight: 400;
       }
 
       .tab.active {
         background: #F0F0F0;
         color: #333;
+        font-weight: 500;
       }
 
       .input-group {
@@ -164,6 +175,7 @@
         right: 5.5px;
         display: flex;
         align-items: center;
+        justify-content: center;
         gap: 6px;
         padding: 6px 12px;
         border-radius: 6px;
@@ -174,6 +186,8 @@
         font-size: 13px;
         cursor: pointer;
         transition: all 0.2s ease;
+        height: 28px;
+        line-height: 1;
       }
 
       .copy-button:hover {
@@ -183,6 +197,9 @@
       .copy-button svg {
         width: 14px;
         height: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
     </style>
   </head>
@@ -190,6 +207,10 @@
     <div class="container">
       <div class="header">
         <span>Figma Values to Logic Pixels (Flutter)</span>
+      </div>
+
+      <div class="description">
+        Convert Figma's letter spacing and line height values to Flutter-compatible logic pixels. Simply select a text layer to automatically calculate the conversion.
       </div>
 
       <div class="tabs">
@@ -247,7 +268,7 @@
         <div class="input-group">
           <div class="label">Font Size (px)</div>
           <div class="input-container">
-            <input type="number" id="fontSize" placeholder="16">
+            <input type="number" id="fontSize" placeholder="Enter font size, e.g., 16">
           </div>
         </div>
 
@@ -265,7 +286,7 @@
         <div class="input-group" id="lineHeightValueGroup">
           <div class="label">Line Height Value</div>
           <div class="input-container">
-            <input type="number" id="lineHeightValue" placeholder="130" step="any">
+            <input type="number" id="lineHeightValue" placeholder="Enter line height value, e.g., 130" step="any">
           </div>
         </div>
 
@@ -317,20 +338,16 @@
         // Remove the temporary textarea
         document.body.removeChild(textarea);
         
-        // Update button text
+        // Update button text with middle-aligned elements
         const button = event.currentTarget;
-        const originalHTML = button.innerHTML;
         button.innerHTML = `
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M11.6667 1L4.5 8.16667L2.33333 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          Copied!
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M11.6667 1L4.5 8.16667L2.33333 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Copied!
+          </div>
         `;
-        
-        // Reset button text after 2 seconds
-        setTimeout(() => {
-          button.innerHTML = originalHTML;
-        }, 2000);
       }
 
       // Wait for DOM to be loaded
@@ -366,19 +383,37 @@
         const spacingResult = document.getElementById('spacingResult');
 
         function calculateSpacing() {
-          const size = parseFloat(baseSize.value);
-          const percent = parseFloat(spacingValue.value);
+          const baseSize = parseFloat(document.getElementById('baseSize').value);
+          const spacingPercent = parseFloat(document.getElementById('spacingValue').value);
+          const spacingResult = document.getElementById('spacingResult');
           
-          if (!isNaN(size) && !isNaN(percent)) {
-            const result = (percent / 100) * size;
+          if (!isNaN(baseSize) && !isNaN(spacingPercent)) {
+            // The formula should be: (spacing % / 100) × base size
+            const result = (spacingPercent / 100) * baseSize;
             spacingResult.value = result.toFixed(2);
           } else {
             spacingResult.value = '';
           }
         }
 
-        baseSize?.addEventListener('input', calculateSpacing);
-        spacingValue?.addEventListener('input', calculateSpacing);
+        // Make sure this calculation is triggered both on:
+        // 1. Manual input changes
+        document.getElementById('baseSize')?.addEventListener('input', calculateSpacing);
+        document.getElementById('spacingValue')?.addEventListener('input', calculateSpacing);
+
+        // 2. When receiving values from Figma
+        window.onmessage = (event) => {
+          const msg = event.data.pluginMessage;
+          
+          if (msg.type === 'update-values') {
+            // Update values
+            document.getElementById('baseSize').value = msg.fontSize;
+            document.getElementById('spacingValue').value = msg.letterSpacingPercent.toFixed(2);
+            
+            // Explicitly trigger calculation
+            calculateSpacing();
+          }
+        };
 
         // Line Height Calculator
         const fontSize = document.getElementById('fontSize');
