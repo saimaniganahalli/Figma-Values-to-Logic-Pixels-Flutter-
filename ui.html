@@ -5,189 +5,111 @@
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
     
     <style>
-      body {
-        font-family: 'Manrope', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      * {
+        box-sizing: border-box;
         margin: 0;
-        background: white;
+        padding: 0;
       }
 
       .container {
-        padding: 20px 16px;
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
-        width: 280px;
-        box-sizing: border-box;
+        padding: 20px;
+        font-family: 'Manrope', sans-serif;
       }
 
-      .header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+      h1 {
+        font-size: 20px;
+        font-weight: 600;
         color: #333;
-        font-size: 14px;
-        font-weight: 500;
-        margin-bottom: 8px;
+        margin-bottom: 12px;
       }
 
       .description {
-        color: #666;
         font-size: 13px;
         line-height: 1.4;
-        margin-bottom: 16px;
-        font-weight: 400;
+        color: #666;
+        margin-bottom: 24px;
       }
 
       .tabs {
         display: flex;
         gap: 8px;
-        margin-bottom: 8px;
+        margin-bottom: 24px;
       }
 
       .tab {
-        padding: 6px 12px;
+        padding: 8px 16px;
+        background: #F5F5F5;
+        border: none;
         border-radius: 6px;
         font-size: 13px;
-        cursor: pointer;
         color: #666;
-        background: transparent;
+        cursor: pointer;
         font-family: 'Manrope', sans-serif;
-        font-weight: 400;
       }
 
       .tab.active {
-        background: #F0F0F0;
+        background: #E9E9E9;
         color: #333;
         font-weight: 500;
       }
 
       .input-group {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
+        margin-bottom: 24px;
       }
 
-      .label {
+      label {
+        margin-top: 24px;
+        display: block;
         font-size: 13px;
-        color: #666;
-        margin-bottom: 4px;
+        color: #333;
+        margin-bottom: 8px;
       }
 
-      .input-container {
-        background: white;
-        border-radius: 8px;
-        padding: 12px;
-        border: 1px solid #E5E5E5;
+      label:first-child {
+        margin-top: 0;
       }
 
-      .input-container.readonly {
-        background: #F5F5F5;
-        border: none;
-        padding-right: 0;
-      }
-
-      input, select {
+      input {
         width: 100%;
+        padding: 8px 12px;
+        border: 1px solid #E5E5E5;
+        border-radius: 6px;
+        font-size: 13px;
+        font-family: 'Manrope', sans-serif;
+      }
+
+      input::placeholder {
+        color: #999;
+      }
+
+      .result-field {
+        background: #F5F5F5;
+        border-radius: 8px;
+        padding: 8px;
+        display: flex;
+        align-items: center;
+      }
+
+      .result-field input {
         border: none;
         background: transparent;
-        font-size: 14px;
-        color: #333;
-        padding: 0;
-        font-family: 'Manrope', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      }
-
-      input:disabled, input:read-only {
-        color: #666;
-      }
-
-      input:focus, select:focus {
-        outline: none;
-      }
-
-      select {
-        -webkit-appearance: none;
-        appearance: none;
-      }
-
-      .formula {
-        font-size: 12px;
-        color: #666;
-        padding-top: 8px;
-      }
-
-      .calculator {
-        display: none;
-        flex-direction: column;
-        gap: 24px;
-        min-height: 0;
-        opacity: 0;
-        transition: opacity 0.2s ease;
-      }
-
-      .calculator.active {
-        display: flex;
-        opacity: 1;
-      }
-
-      .formula-callout {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        background: #EEF6FF;
-        border: 1px solid #1F63F1;
-        border-radius: 8px;
-        padding: 12px 16px;
-        margin-top: 8px;
-      }
-
-      .formula-header {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        color: #1F63F1;
-        font-weight: 500;
-        font-size: 14px;
-      }
-
-      .formula-content {
-        color: #1F63F1;
-        font-size: 13px;
-      }
-
-      .info-icon {
-        width: 16px;
-        height: 16px;
-        color: #1F63F1;
-      }
-
-      .result-container {
-        position: relative;
-        display: flex;
-        align-items: center;
-      }
-
-      .result-container input {
-        padding-right: 76px; /* Make space for the copy button */
+        padding: 0 8px;
       }
 
       .copy-button {
-        position: absolute;
-        right: 5.5px;
         display: flex;
         align-items: center;
-        justify-content: center;
-        gap: 6px;
+        gap: 4px;
         padding: 6px 12px;
-        border-radius: 6px;
         background: white;
         border: 1px solid #E5E5E5;
-        color: #333;
-        font-family: 'Manrope', sans-serif;
+        border-radius: 6px;
         font-size: 13px;
+        color: #333;
         cursor: pointer;
-        transition: all 0.2s ease;
-        height: 28px;
-        line-height: 1;
+        font-family: 'Manrope', sans-serif;
+        -webkit-tap-highlight-color: transparent;
+        outline: none;
       }
 
       .copy-button:hover {
@@ -197,289 +119,206 @@
       .copy-button svg {
         width: 14px;
         height: 14px;
+      }
+
+      .copy-button svg path {
+        stroke: currentColor;
+        stroke-width: 1.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .formula-box {
+        background: #F0F6FF;
+        border: 1px solid #246BFD;
+        border-radius: 8px;
+        padding: 16px;
+        margin-top: 24px;
+      }
+
+      .formula-header {
         display: flex;
         align-items: center;
-        justify-content: center;
+        gap: 8px;
+        color: #246BFD;
+        font-size: 13px;
+        font-weight: 500;
+        margin-bottom: 8px;
+      }
+
+      .formula-text {
+        color: #333;
+        font-size: 13px;
+      }
+
+      /* Remove orange highlight on click */
+      input, button {
+        -webkit-tap-highlight-color: transparent;
+        outline: none;
+      }
+
+      input:focus {
+        border-color: #0057FF;
+      }
+
+      .toast {
+        position: fixed;
+        bottom: 16px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #333;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 13px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+      }
+
+      .toast.show {
+        opacity: 1;
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <div class="header">
-        <span>Figma Values to Logic Pixels (Flutter)</span>
-      </div>
-
-      <div class="description">
-        Convert Figma's letter spacing and line height values to Flutter-compatible logic pixels. Simply select a text layer to automatically calculate the conversion.
-      </div>
-
+      <h1>Figma Values to Logic Pixels (Flutter)</h1>
+      
       <div class="tabs">
-        <div class="tab active" data-type="spacing">Letter Spacing</div>
-        <div class="tab" data-type="lineHeight">Line Height</div>
+        <button class="tab active" id="spacingTab">Spacing</button>
+        <button class="tab" id="lineHeightTab">Line Height</button>
       </div>
 
-      <!-- Spacing Calculator -->
-      <div id="spacingCalculator" class="calculator active">
-        <div class="input-group">
-          <div class="label">Font Size (px)</div>
-          <div class="input-container">
-            <input type="number" id="baseSize" placeholder="Enter the font size, e.g., 16">
-          </div>
+      <!-- Spacing Section -->
+      <div id="spacingSection">
+        <label>Font Size (px)</label>
+        <input type="text" id="baseSize" placeholder="Font size" readonly>
+
+        <label>Spacing value (in % or px)</label>
+        <input type="text" id="spacingValue" placeholder="Spacing value" readonly>
+
+        <label>Result in logic pixels</label>
+        <div class="result-field">
+          <input type="text" id="spacingResult" placeholder="Result in logic pixels" readonly>
+          <button class="copy-button" id="copyButton">
+            <span>Copy</span>
+          </button>
         </div>
 
-        <div class="input-group">
-          <div class="label">Spacing Value (%)</div>
-          <div class="input-container">
-            <input type="number" id="spacingValue" placeholder="Enter the spacing value, e.g., 5" step="any">
-          </div>
-        </div>
-
-        <div class="input-group">
-          <div class="label">Result in Logic Pixels (Flutter)</div>
-          <div class="input-container readonly result-container">
-            <input type="number" id="spacingResult" placeholder="Value in logic pixels" readonly>
-            <button class="copy-button" onclick="copyResult('spacingResult')">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M11.6667 5.16667H6.16667C5.52233 5.16667 5 5.689 5 6.33333V11.8333C5 12.4777 5.52233 13 6.16667 13H11.6667C12.311 13 12.8333 12.4777 12.8333 11.8333V6.33333C12.8333 5.689 12.311 5.16667 11.6667 5.16667Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M2.83333 8.83333H2.16667C1.52233 8.83333 1 8.311 1 7.66667V2.16667C1 1.52233 1.52233 1 2.16667 1H7.66667C8.311 1 8.83333 1.52233 8.83333 2.16667V2.83333" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              Copy
-            </button>
-          </div>
-        </div>
-
-        <div class="formula-callout">
+        <div class="formula-box">
           <div class="formula-header">
-            <svg class="info-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/>
-              <path d="M8 4V5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              <path d="M8 7V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 15C11.866 15 15 11.866 15 8C15 4.13401 11.866 1 8 1C4.13401 1 1 4.13401 1 8C1 11.866 4.13401 15 8 15Z" stroke="#246BFD" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M8 11V8" stroke="#246BFD" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M8 5H8.01" stroke="#246BFD" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
             <span>Formula</span>
           </div>
-          <div class="formula-content">
+          <div class="formula-text">
             Result = (Spacing % ÷ 100) × Base Size
           </div>
         </div>
       </div>
 
-      <!-- Line Height Calculator -->
-      <div id="lineHeightCalculator" class="calculator">
-        <div class="input-group">
-          <div class="label">Font Size (px)</div>
-          <div class="input-container">
-            <input type="number" id="fontSize" placeholder="Enter font size, e.g., 16">
-          </div>
+      <!-- Line Height Section -->
+      <div id="lineHeightSection" style="display: none;">
+        <label>Font Size (px)</label>
+        <input type="text" id="baseSize" placeholder="Font size" readonly>
+
+        <label>Line Height Type</label>
+        <input type="text" id="lineHeightValue" placeholder="Line height type" readonly>
+
+        <label>Result in Pixels</label>
+        <div class="result-field">
+          <input type="text" id="lineHeightResult" placeholder="Result in pixels" readonly>
+          <button class="copy-button" id="copyLineHeightButton">
+            <span>Copy</span>
+          </button>
         </div>
 
-        <div class="input-group">
-          <div class="label">Line Height Type</div>
-          <div class="input-container">
-            <select id="lineHeightType">
-              <option value="percent">Percentage (%)</option>
-              <option value="auto">Auto (120%)</option>
-              <option value="pixels">Pixels</option>
-            </select>
-          </div>
-        </div>
+        <p class="formula">For %: Result = (Line Height % ÷ 100) × Font Size</p>
+      </div>
 
-        <div class="input-group" id="lineHeightValueGroup">
-          <div class="label">Line Height Value</div>
-          <div class="input-container">
-            <input type="number" id="lineHeightValue" placeholder="Enter line height value, e.g., 130" step="any">
-          </div>
-        </div>
-
-        <div class="input-group">
-          <div class="label">Result in Logic Pixels (Flutter)</div>
-          <div class="input-container readonly result-container">
-            <input type="number" id="lineHeightResult" placeholder="Value in logic pixels" readonly>
-            <button class="copy-button" onclick="copyResult('lineHeightResult')">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M11.6667 5.16667H6.16667C5.52233 5.16667 5 5.689 5 6.33333V11.8333C5 12.4777 5.52233 13 6.16667 13H11.6667C12.311 13 12.8333 12.4777 12.8333 11.8333V6.33333C12.8333 5.689 12.311 5.16667 11.6667 5.16667Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M2.83333 8.83333H2.16667C1.52233 8.83333 1 8.311 1 7.66667V2.16667C1 1.52233 1.52233 1 2.16667 1H7.66667C8.311 1 8.83333 1.52233 8.83333 2.16667V2.83333" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              Copy
-            </button>
-          </div>
-        </div>
-
-        <div class="formula-callout">
-          <div class="formula-header">
-            <svg class="info-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/>
-              <path d="M8 4V5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              <path d="M8 7V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            </svg>
-            <span><b>Formula</b><span>
-          </div>
-          <div class="formula-content" style="color: #000000">
-            For %: Result = (Line Height % ÷ 100) × Font Size
-          </div>
-        </div>
+      <div id="toast" class="toast">
+        Copied to clipboard!
       </div>
     </div>
 
     <script>
-      // Copy function - place this OUTSIDE any event listeners
-      function copyResult(elementId) {
-        const resultInput = document.getElementById(elementId);
-        if (!resultInput || !resultInput.value) return;
-        
-        // Create a temporary textarea element
-        const textarea = document.createElement('textarea');
-        textarea.value = resultInput.value;
-        document.body.appendChild(textarea);
-        
-        // Select and copy the text
-        textarea.select();
-        document.execCommand('copy');
-        
-        // Remove the temporary textarea
-        document.body.removeChild(textarea);
-        
-        // Update button text with middle-aligned elements
-        const button = event.currentTarget;
-        button.innerHTML = `
-          <div style="display: flex; align-items: center; gap: 6px;">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M11.6667 1L4.5 8.16667L2.33333 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            Copied!
-          </div>
-        `;
-      }
+      // Tab switching functionality
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          // Remove active class from all tabs
+          document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+          // Add active class to clicked tab
+          tab.classList.add('active');
 
-      // Wait for DOM to be loaded
-      document.addEventListener('DOMContentLoaded', () => {
-        // Tab switching
-        const tabs = document.querySelectorAll('.tab');
-        const calculators = document.querySelectorAll('.calculator');
-
-        tabs.forEach(tab => {
-          tab.addEventListener('click', () => {
-            // Remove active class from all tabs and calculators
-            tabs.forEach(t => t.classList.remove('active'));
-            calculators.forEach(c => c.classList.remove('active'));
-            
-            // Add active class to clicked tab and corresponding calculator
-            tab.classList.add('active');
-            if (tab.dataset.type === 'spacing') {
-              document.getElementById('spacingCalculator').classList.add('active');
-            } else {
-              document.getElementById('lineHeightCalculator').classList.add('active');
-            }
-
-            // Add height update after tab switch
-            requestAnimationFrame(() => {
-              updatePluginHeight();
-            });
-          });
-        });
-
-        // Letter Spacing Calculator
-        const baseSize = document.getElementById('baseSize');
-        const spacingValue = document.getElementById('spacingValue');
-        const spacingResult = document.getElementById('spacingResult');
-
-        function calculateSpacing() {
-          const baseSize = parseFloat(document.getElementById('baseSize').value);
-          const spacingPercent = parseFloat(document.getElementById('spacingValue').value);
-          const spacingResult = document.getElementById('spacingResult');
-          
-          if (!isNaN(baseSize) && !isNaN(spacingPercent)) {
-            // The formula should be: (spacing % / 100) × base size
-            const result = (spacingPercent / 100) * baseSize;
-            spacingResult.value = result.toFixed(2);
+          // Show/hide appropriate section
+          if (tab.id === 'lineHeightTab') {
+            document.getElementById('lineHeightSection').style.display = 'block';
+            document.getElementById('spacingSection').style.display = 'none';
           } else {
-            spacingResult.value = '';
+            document.getElementById('lineHeightSection').style.display = 'none';
+            document.getElementById('spacingSection').style.display = 'block';
           }
-        }
-
-        // Make sure this calculation is triggered both on:
-        // 1. Manual input changes
-        document.getElementById('baseSize')?.addEventListener('input', calculateSpacing);
-        document.getElementById('spacingValue')?.addEventListener('input', calculateSpacing);
-
-        // 2. When receiving values from Figma
-        window.onmessage = (event) => {
-          const msg = event.data.pluginMessage;
-          
-          if (msg.type === 'update-values') {
-            // Update values
-            document.getElementById('baseSize').value = msg.fontSize;
-            document.getElementById('spacingValue').value = msg.letterSpacingPercent.toFixed(2);
-            
-            // Explicitly trigger calculation
-            calculateSpacing();
-          }
-        };
-
-        // Line Height Calculator
-        const fontSize = document.getElementById('fontSize');
-        const lineHeightType = document.getElementById('lineHeightType');
-        const lineHeightValue = document.getElementById('lineHeightValue');
-        const lineHeightResult = document.getElementById('lineHeightResult');
-        const lineHeightValueGroup = document.getElementById('lineHeightValueGroup');
-
-        function calculateLineHeight() {
-          const size = parseFloat(fontSize.value);
-          const value = parseFloat(lineHeightValue.value);
-          
-          if (!isNaN(size)) {
-            let result = 0;
-            
-            switch (lineHeightType.value) {
-              case 'auto':
-                result = size * 1.2;
-                lineHeightValueGroup.style.display = 'none';
-                break;
-              case 'percent':
-                if (!isNaN(value)) {
-                  result = (value / 100) * size;
-                }
-                lineHeightValueGroup.style.display = 'block';
-                break;
-              case 'pixels':
-                if (!isNaN(value)) {
-                  result = value;
-                }
-                lineHeightValueGroup.style.display = 'block';
-                break;
-            }
-            
-            lineHeightResult.value = result.toFixed(2);
-          } else {
-            lineHeightResult.value = '';
-          }
-        }
-
-        fontSize?.addEventListener('input', calculateLineHeight);
-        lineHeightType?.addEventListener('change', calculateLineHeight);
-        lineHeightValue?.addEventListener('input', calculateLineHeight);
-
-        // Function to measure and update plugin height
-        function updatePluginHeight() {
-          const container = document.querySelector('.container');
-          if (container) {
-            const height = container.offsetHeight;
-            parent.postMessage({ pluginMessage: { type: 'resize', height } }, '*');
-          }
-        }
-
-        // Update height when line height type changes
-        lineHeightType?.addEventListener('change', () => {
-          requestAnimationFrame(updatePluginHeight);
         });
-
-        // Initial height update
-        document.fonts.ready.then(() => {
-          requestAnimationFrame(updatePluginHeight);
-        });
-
-        // Backup height update after a short delay
-        setTimeout(updatePluginHeight, 100);
       });
+
+      // Copy button functionality
+      document.getElementById('copyButton').addEventListener('click', () => {
+        const resultInput = document.getElementById('spacingResult');
+        if (!resultInput.value) return;
+
+        // Select the text
+        resultInput.select();
+        resultInput.setSelectionRange(0, 99999);
+
+        // Copy the text
+        document.execCommand('copy');
+
+        // Deselect the text
+        window.getSelection()?.removeAllRanges();
+
+        // Show toast
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        
+        // Hide toast after 2 seconds
+        setTimeout(() => {
+          toast.classList.remove('show');
+        }, 2000);
+
+        // Update button state
+        const button = document.getElementById('copyButton');
+        const buttonText = button.querySelector('span');
+        buttonText.textContent = 'Copied!';
+        
+        setTimeout(() => {
+          buttonText.textContent = 'Copy';
+        }, 2000);
+      });
+
+      // Handle messages from the plugin
+      window.onmessage = (event) => {
+        const msg = event.data.pluginMessage;
+        
+        if (msg.type === 'update-values') {
+          document.getElementById('baseSize').value = msg.fontSize;
+          document.getElementById('spacingValue').value = msg.spacingValue;
+          document.getElementById('spacingResult').value = msg.logicPixels;
+          
+          document.getElementById('lineHeightValue').value = msg.lineHeightValue;
+          document.getElementById('lineHeightResult').value = msg.lineHeightPixels;
+        } 
+        else if (msg.type === 'clear-fields') {
+          document.getElementById('baseSize').value = '';
+          document.getElementById('spacingValue').value = '';
+          document.getElementById('spacingResult').value = '';
+          document.getElementById('lineHeightValue').value = '';
+          document.getElementById('lineHeightResult').value = '';
+        }
+      };
     </script>
   </body>
 </html>
