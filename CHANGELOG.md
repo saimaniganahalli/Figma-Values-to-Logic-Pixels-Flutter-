@@ -1,32 +1,26 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
-
-## [0.2.1] - 2024-03-19
-
-### Bug Fixes
-- Fixed letter spacing calculation when value is 0 (previously incorrectly used font size instead of 0)
-
-## [0.2.0] - 2024-03-19
+## [1.1.0] - 2024-03-XX
 
 ### Added
-- Code preview with syntax highlighting
-- Automatic line height detection for "Auto" values
-- Intuitive icons for spacing and line height tabs
-- Flutter-ready code snippet copying
-- Clean, modern UI design
-- Placeholder state for no text layer selection
-- Improved formula display and explanations
+- Dynamic UI height adjustment based on content
+- Improved contrast with black text on white background
+- Consistent white background for better visibility
 
 ### Fixed
-- Line height calculation for "Auto" values
-- Code preview overlap issues
-- Error handling for missing text layers
+- Result field background transparency issue
+- UI scrolling issues
+- Height adjustment when switching between tabs
 
-## [0.1.0] - 2024-03-19
+### Changed
+- Improved text contrast and readability
+- Simplified UI color scheme
+- Code preview section maintains dark theme for better code readability
+
+## [1.0.0] - Initial Release
 
 ### Added
-- Initial release
-- Letter spacing conversion functionality
-- Line height conversion functionality
-- Support for both percentage and pixel values
+- Letter spacing conversion from Figma to Flutter
+- Line height conversion from Figma to Flutter
+- Code snippet generation
+- Auto-detection of text layer properties

@@ -14,20 +14,20 @@
 
       .container {
         padding: 20px;
-        font-family: 'Manrope', sans-serif;
+        font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
       }
 
       h1 {
         font-size: 20px;
         font-weight: 600;
-        color: #333;
+        color: black;
         margin-bottom: 12px;
       }
 
       .description {
         font-size: 13px;
         line-height: 1.4;
-        color: #666;
+        color: #666666;
         margin-bottom: 24px;
       }
 
@@ -46,14 +46,14 @@
         border: none;
         border-radius: 6px;
         font-size: 13px;
-        color: #666;
+        color: #666666;
         cursor: pointer;
         font-family: 'Manrope', sans-serif;
       }
 
       .tab.active {
         background: #E9E9E9;
-        color: #333;
+        color: #333333;
         font-weight: 500;
       }
 
@@ -65,7 +65,7 @@
         margin-top: 24px;
         display: block;
         font-size: 13px;
-        color: #333;
+        color: black;
         margin-bottom: 8px;
       }
 
@@ -80,6 +80,8 @@
         border-radius: 6px;
         font-size: 13px;
         font-family: 'Manrope', sans-serif;
+        background: white;
+        color: black;
       }
 
       input::placeholder {
@@ -96,8 +98,9 @@
 
       .result-field input {
         border: none;
-        background: transparent;
+        background: transparent !important;
         padding: 0 8px;
+        color: black;
       }
 
       .copy-button {
@@ -151,7 +154,7 @@
       }
 
       .formula-text {
-        color: #333;
+        color: black;
         font-size: 13px;
       }
 
@@ -257,14 +260,115 @@
       .copy-snippet-button:disabled {
         cursor: not-allowed;
       }
+
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 12px;
+      }
+
+      /* Theme toggle inherits tab styles and adds these specific modifications */
+      .theme-toggle {
+        padding: 8px 12px;
+        margin: 0;
+      }
+
+      .theme-toggle svg {
+        width: 16px;
+        height: 16px;
+      }
+
+      /* Replace the dark theme styles with these */
+      body {
+        background: white !important;
+      }
+
+      body h1 {
+        color: black !important;
+      }
+
+      body .description {
+        color: #666666 !important;
+      }
+
+      body label {
+        color: black !important;
+      }
+
+      body input {
+        background: white !important;
+        color: black !important;
+        border-color: #E5E5E5 !important;
+      }
+
+      body .result-field {
+        background: #F5F5F5 !important;
+      }
+
+      body .tab {
+        background: #F5F5F5 !important;
+        color: #666666 !important;
+      }
+
+      body .tab.active {
+        background: #E9E9E9 !important;
+        color: #333333 !important;
+      }
+
+      body .tab:hover {
+        background: #EBEBEB !important;
+      }
+
+      body .formula-box {
+        background: #F0F6FF !important;
+        border-color: #246BFD !important;
+      }
+
+      body .formula-text {
+        color: black !important;
+      }
+
+      body .formula-header {
+        color: #246BFD !important;
+      }
+
+      .footer {
+        margin-top: 24px;
+        text-align: center;
+        font-size: 12px;
+        color: #666666;
+        line-height: 1.6;
+        background: #F5F5F5;
+        padding: 12px;
+        border-radius: 6px;
+      }
+
+      .footer a {
+        color: #666666;
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+
+      .footer a:hover {
+        color: #246BFD;
+      }
+
+      .footer .portfolio-link {
+        color: #246BFD;
+        text-decoration: underline;
+      }
+
+      .footer .portfolio-link:hover {
+        opacity: 0.8;
+      }
     </style>
   </head>
   <body>
     <div class="container">
-      <h1>Figma to Flutter</h1>
+      <h1>Figma to Flutter Style Converter</h1>
       <p class="description">
-        Convert Figma's letter spacing and line height values to Flutter-compatible values.
-        Select any text layer to get started.
+        Convert Figma's letter spacing and line height values to Flutter-compatible values without second
       </p>
       
       <div class="tabs">
@@ -373,10 +477,29 @@
       <div id="toast" class="toast">
         Copied to clipboard!
       </div>
+
+      <div class="footer">
+        <a href="https://sai.design" target="_blank">©Sai Maniganahalli, 2024</a><br>
+        <a href="https://www.sai.design" target="_blank" class="portfolio-link">sai.design</a>
+      </div>
     </div>
 
     <script>
-      // Tab switching functionality
+      function updatePluginHeight() {
+        // Get the currently visible section
+        const spacingSection = document.getElementById('spacingSection');
+        const lineHeightSection = document.getElementById('lineHeightSection');
+        const visibleSection = spacingSection.style.display !== 'none' ? spacingSection : lineHeightSection;
+        
+        // Get all elements and compute total height
+        const container = document.querySelector('.container');
+        const totalHeight = container.getBoundingClientRect().height;
+        
+        // Send message to resize with exact height
+        parent.postMessage({ pluginMessage: { type: 'resize', height: Math.ceil(totalHeight) } }, '*');
+      }
+
+      // Update the tab switching code
       document.querySelectorAll('.tab').forEach(tab => {
         tab.addEventListener('click', () => {
           // Remove active class from all tabs
@@ -392,8 +515,22 @@
             document.getElementById('lineHeightSection').style.display = 'none';
             document.getElementById('spacingSection').style.display = 'block';
           }
+
+          // Update height after content change
+          requestAnimationFrame(() => {
+            updatePluginHeight();
+          });
         });
       });
+
+      // Initial height update
+      setTimeout(updatePluginHeight, 100);
+
+      // Update height when content changes
+      const observer = new ResizeObserver(() => {
+        updatePluginHeight();
+      });
+      observer.observe(document.body);
 
       // Add this at the start of the script to show placeholder on load
       window.onload = () => {
@@ -463,6 +600,16 @@
           document.querySelectorAll('.copy-snippet-button').forEach(button => {
             button.disabled = true;
             button.style.opacity = '0.5';
+          });
+
+          // Update height after clearing fields
+          requestAnimationFrame(() => {
+            updatePluginHeight();
+          });
+        } else if (msg.type === 'resize-request') {
+          // Handle explicit resize requests
+          requestAnimationFrame(() => {
+            updatePluginHeight();
           });
         }
       };

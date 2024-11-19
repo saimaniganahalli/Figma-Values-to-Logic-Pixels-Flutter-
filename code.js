@@ -9,15 +9,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-// Initial show with default height
+// Initial show with default height for spacing tab
 figma.showUI(__html__, {
     width: 400,
-    height: 600,
+    height: 520, // Initial height for spacing tab
     themeColors: true
 });
 // Single message handler for all UI messages
 figma.ui.onmessage = (msg) => __awaiter(void 0, void 0, void 0, function* () {
     if (msg.type === 'resize') {
+        // Resize UI based on content height
         figma.ui.resize(400, msg.height);
     }
     else if (msg.type === 'spacing-result') {
@@ -50,6 +51,10 @@ figma.on("selectionchange", () => {
             type: 'clear-fields',
             showPlaceholder: true
         });
+        // Add small delay to ensure UI updates before resizing
+        setTimeout(() => {
+            figma.ui.postMessage({ type: 'resize-request' });
+        }, 100);
         return;
     }
     const textNode = selection[0];

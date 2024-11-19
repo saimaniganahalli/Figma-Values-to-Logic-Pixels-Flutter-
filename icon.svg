@@ -1,0 +1,16 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="128" height="128" rx="28" fill="#F0F6FF"/>
+  
+  <!-- Text Lines -->
+  <g stroke="#246BFD" stroke-width="8" stroke-linecap="round">
+    <!-- Letter Spacing Lines -->
+    <line x1="32" y1="44" x2="96" y2="44"/>
+    <line x1="36" y1="64" x2="92" y2="64"/>
+    <line x1="40" y1="84" x2="88" y2="84"/>
+    
+    <!-- Spacing Arrows -->
+    <path d="M32 54L40 44L48 54" stroke-linejoin="round"/>
+    <path d="M80 54L88 44L96 54" stroke-linejoin="round"/>
+  </g>
+</svg> 

@@ -1,35 +1,28 @@
-# Release Notes
+# Release Notes - v1.1.0
 
-Created by [Sai Maniganahalli](https://github.com/saimaniganahalli) | Design. Code. Hot Chocolate ☕️
+## What's New
 
-## Version 0.2.1 (Current)
+This update focuses on improving the user interface and experience:
 
-### Bug Fixes
-- Fixed letter spacing calculation when value is 0 (previously incorrectly used font size instead of 0)
+- **Dynamic UI**: The plugin window now automatically adjusts its height based on content
+- **Better Readability**: Enhanced contrast with black text on white background
+- **Consistent Design**: White background maintained across all Figma themes
+- **Code Preview**: Maintained dark theme for code snippets for better readability
 
-## Version 0.2.0
+## Bug Fixes
 
-### New Features
-- Added code preview with syntax highlighting
-- Implemented automatic line height detection for "Auto" values
-- Added intuitive icons for spacing and line height tabs
-- Added Flutter-ready code snippet copying
+- Fixed result field background transparency issues
+- Eliminated unnecessary scrolling
+- Improved tab switching behavior
+- Fixed height adjustment issues when switching between tabs
 
-### Improvements
-- Updated UI with cleaner, more modern design
-- Added placeholder state when no text layer is selected
-- Improved formula display and explanations
-- Enhanced code copying with proper Flutter TextStyle format
+## Technical Improvements
 
-### Bug Fixes
-- Fixed line height calculation for "Auto" values
-- Fixed code preview overlap issues
-- Improved error handling for missing text layers
+- Optimized resize observer implementation
+- Improved theme handling
+- Better calculation of UI heights
+- Enhanced code snippet formatting
 
-## Version 0.1.0 (Initial Release)
+## Feedback
 
-### Features
-- Basic letter spacing conversion
-- Basic line height conversion
-- Simple value copying
-- Support for both pixel and percentage values
+We value your feedback! Please report any issues or suggestions through the Figma plugin feedback channel.
