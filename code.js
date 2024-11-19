@@ -21,15 +21,24 @@ figma.ui.onmessage = (msg) => __awaiter(void 0, void 0, void 0, function* () {
         figma.ui.resize(400, msg.height);
     }
     else if (msg.type === 'spacing-result') {
-        console.log(`Spacing: ${msg.figmaValue} → ${msg.pixelValue}`);
-        figma.ui.postMessage({ type: 'spacing-result', value: msg.value });
+        const codeSnippet = `letterSpacing: ${msg.value}`;
+        console.log(`Spacing: ${msg.figmaValue} → ${codeSnippet}`);
+        figma.ui.postMessage({
+            type: 'spacing-result',
+            value: msg.value,
+            codeSnippet: codeSnippet
+        });
     }
     else if (msg.type === 'lineheight-result') {
-        console.log(`Line Height: ${msg.figmaValue} → ${msg.pixelValue}`);
-        figma.ui.postMessage({ type: 'lineheight-result', value: msg.value });
+        const codeSnippet = `height: ${msg.value}`;
+        console.log(`Line Height: ${msg.figmaValue} → ${codeSnippet}`);
+        figma.ui.postMessage({
+            type: 'lineheight-result',
+            value: msg.value,
+            codeSnippet: codeSnippet
+        });
     }
     else if (msg.type === 'copy-to-clipboard') {
-        // Send confirmation back to UI for the copy action
         figma.ui.postMessage({ type: 'copied' });
     }
 });
@@ -38,7 +47,8 @@ figma.on("selectionchange", () => {
     const selection = figma.currentPage.selection;
     if (selection.length === 0 || selection[0].type !== "TEXT") {
         figma.ui.postMessage({
-            type: 'clear-fields'
+            type: 'clear-fields',
+            showPlaceholder: true
         });
         return;
     }
@@ -61,10 +71,50 @@ figma.on("selectionchange", () => {
         spacingValue = `${Number(letterSpacing).toFixed(2)}px`;
         logicPixels = letterSpacing === 0 ? fontSize : letterSpacing;
     }
+    // Update the line height detection section
+    const lineHeight = textNode.lineHeight;
+    let lineHeightValue = '';
+    let heightResult = 0;
+    if (lineHeight === null || (typeof lineHeight === 'object' &&
+        ((lineHeight.unit === 'PERCENT' && lineHeight.value === 0) ||
+            (lineHeight.unit === 'AUTO')))) {
+        // For Auto line height, calculate based on font size
+        // 1.2 is a standard multiplier that provides good readability 
+        // and matches default line height in many design systems
+        const calculatedHeight = Math.round(fontSize * 1.2);
+        lineHeightValue = `${calculatedHeight}px`; // Explicit pixel value for Auto
+        heightResult = 1.2; // Store the multiplier
+    }
+    else if (typeof lineHeight === 'object' && lineHeight !== null) {
+        if (lineHeight.unit === 'PERCENT') {
+            lineHeightValue = `${lineHeight.value}%`;
+            heightResult = lineHeight.value / 100;
+        }
+        else if (lineHeight.unit === 'PIXELS') {
+            lineHeightValue = `${lineHeight.value}px`;
+            heightResult = lineHeight.value / fontSize;
+        }
+    }
+    else if (typeof lineHeight === 'number') {
+        lineHeightValue = `${lineHeight}px`;
+        heightResult = lineHeight / fontSize;
+    }
+    // Add debug logging
+    console.log('Line Height Debug:', {
+        lineHeight,
+        fontSize,
+        lineHeightValue,
+        heightResult,
+        type: lineHeight ? typeof lineHeight : 'null',
+        rawHeight: textNode.height
+    });
+    // Update the message to include line height values
     figma.ui.postMessage({
         type: 'update-values',
         fontSize,
         spacingValue,
-        logicPixels: logicPixels.toFixed(2)
+        logicPixels: logicPixels.toFixed(2),
+        lineHeightValue, // This should now always have a value in px or %
+        heightResult: heightResult.toFixed(2)
     });
 });

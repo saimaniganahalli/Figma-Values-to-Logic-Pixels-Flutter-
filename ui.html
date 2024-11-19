@@ -3,6 +3,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css" rel="stylesheet" />
     
     <style>
       * {
@@ -37,7 +38,10 @@
       }
 
       .tab {
-        padding: 8px 16px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 12px;
         background: #F5F5F5;
         border: none;
         border-radius: 6px;
@@ -179,15 +183,106 @@
       .toast.show {
         opacity: 1;
       }
+
+      .code-preview {
+        background: #1E1E1E;
+        border-radius: 8px;
+        padding: 12px 12px 12px 16px;
+        margin-top: 16px;
+        font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+        font-size: 12px;
+        color: #D4D4D4;
+        position: relative;
+      }
+
+      .code-preview pre {
+        margin: 0;
+        white-space: pre-wrap;
+        padding-right: 64px;
+      }
+
+      .code-preview code {
+        color: #D4D4D4;
+      }
+
+      .code-preview .string { color: #CE9178; }
+      .code-preview .number { color: #B5CEA8; }
+      .code-preview .keyword { color: #569CD6; }
+      .code-preview .property { color: #9CDCFE; }
+      
+      .copy-snippet-button {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        border-radius: 4px;
+        padding: 4px 8px;
+        color: #fff;
+        font-size: 12px;
+        cursor: pointer;
+        transition: background 0.2s;
+        min-width: 52px;
+        text-align: center;
+      }
+
+      .copy-snippet-button:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      .tab svg {
+        width: 16px;
+        height: 16px;
+      }
+
+      .tab:hover {
+        background: #EBEBEB;
+      }
+
+      .tab.active svg {
+        color: #333;
+      }
+
+      .tab svg {
+        color: #666;
+      }
+
+      .code-preview .comment {
+        color: #6A9955;
+        font-style: italic;
+      }
+
+      .copy-snippet-button:disabled {
+        cursor: not-allowed;
+      }
     </style>
   </head>
   <body>
     <div class="container">
-      <h1>Figma Values to Logic Pixels (Flutter)</h1>
+      <h1>Figma to Flutter</h1>
+      <p class="description">
+        Convert Figma's letter spacing and line height values to Flutter-compatible values.
+        Select any text layer to get started.
+      </p>
       
       <div class="tabs">
-        <button class="tab active" id="spacingTab">Spacing</button>
-        <button class="tab" id="lineHeightTab">Line Height</button>
+        <button class="tab active" id="spacingTab">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2.5 4H13.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M4 6.5L2.5 8L4 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 6.5L13.5 8L12 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M2.5 12H13.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          Spacing
+        </button>
+        <button class="tab" id="lineHeightTab">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 4H14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M2 8H14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M2 12H14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          Line Height
+        </button>
       </div>
 
       <!-- Spacing Section -->
@@ -201,9 +296,6 @@
         <label>Result in logic pixels</label>
         <div class="result-field">
           <input type="text" id="spacingResult" placeholder="Result in logic pixels" readonly>
-          <button class="copy-button" id="copyButton">
-            <span>Copy</span>
-          </button>
         </div>
 
         <div class="formula-box">
@@ -219,25 +311,57 @@
             Result = (Spacing % ÷ 100) × Base Size
           </div>
         </div>
+
+        <div class="code-preview">
+          <pre><code>Text(
+          '0.30',
+          style: TextStyle(
+            <span class="property">fontSize</span>: <span class="number">12</span>,
+            <span id="snippetValue" class="property">letterSpacing</span>: <span class="number">-0.60</span>,
+          ),
+        )</code></pre>
+          <button class="copy-snippet-button">Copy</button>
+        </div>
       </div>
 
       <!-- Line Height Section -->
       <div id="lineHeightSection" style="display: none;">
         <label>Font Size (px)</label>
-        <input type="text" id="baseSize" placeholder="Font size" readonly>
+        <input type="text" id="lineHeightBaseSize" placeholder="Font size" readonly>
 
         <label>Line Height Type</label>
         <input type="text" id="lineHeightValue" placeholder="Line height type" readonly>
 
-        <label>Result in Pixels</label>
+        <label>Result (height)</label>
         <div class="result-field">
-          <input type="text" id="lineHeightResult" placeholder="Result in pixels" readonly>
-          <button class="copy-button" id="copyLineHeightButton">
-            <span>Copy</span>
-          </button>
+          <input type="text" id="lineHeightResult" placeholder="Result in height" readonly>
         </div>
 
-        <p class="formula">For %: Result = (Line Height % ÷ 100) × Font Size</p>
+        <div class="formula-box">
+          <div class="formula-header">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 15C11.866 15 15 11.866 15 8C15 4.13401 11.866 1 8 1C4.13401 1 1 4.13401 1 8C1 11.866 4.13401 15 8 15Z" stroke="#246BFD" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M8 11V8" stroke="#246BFD" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M8 5H8.01" stroke="#246BFD" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Formula</span>
+          </div>
+          <div class="formula-text">
+            For %: height = Line Height % ÷ 100<br>
+            For px: height = Line Height ÷ Font Size
+          </div>
+        </div>
+
+        <div class="code-preview">
+          <pre><code>Text(
+          '1.20',
+          style: TextStyle(
+            <span class="property">fontSize</span>: <span class="number">12</span>,
+            <span id="snippetValue" class="property">height</span>: <span class="number">1.20</span>,
+          ),
+        )</code></pre>
+          <button class="copy-snippet-button">Copy</button>
+        </div>
       </div>
 
       <div id="toast" class="toast">
@@ -265,40 +389,6 @@
         });
       });
 
-      // Copy button functionality
-      document.getElementById('copyButton').addEventListener('click', () => {
-        const resultInput = document.getElementById('spacingResult');
-        if (!resultInput.value) return;
-
-        // Select the text
-        resultInput.select();
-        resultInput.setSelectionRange(0, 99999);
-
-        // Copy the text
-        document.execCommand('copy');
-
-        // Deselect the text
-        window.getSelection()?.removeAllRanges();
-
-        // Show toast
-        const toast = document.getElementById('toast');
-        toast.classList.add('show');
-        
-        // Hide toast after 2 seconds
-        setTimeout(() => {
-          toast.classList.remove('show');
-        }, 2000);
-
-        // Update button state
-        const button = document.getElementById('copyButton');
-        const buttonText = button.querySelector('span');
-        buttonText.textContent = 'Copied!';
-        
-        setTimeout(() => {
-          buttonText.textContent = 'Copy';
-        }, 2000);
-      });
-
       // Handle messages from the plugin
       window.onmessage = (event) => {
         const msg = event.data.pluginMessage;
@@ -308,17 +398,104 @@
           document.getElementById('spacingValue').value = msg.spacingValue;
           document.getElementById('spacingResult').value = msg.logicPixels;
           
-          document.getElementById('lineHeightValue').value = msg.lineHeightValue;
-          document.getElementById('lineHeightResult').value = msg.lineHeightPixels;
+          console.log('Received line height value:', msg.lineHeightValue);
+          const lineHeightInput = document.getElementById('lineHeightValue');
+          lineHeightInput.value = msg.lineHeightValue || '';
+          document.getElementById('lineHeightBaseSize').value = msg.fontSize;
+          document.getElementById('lineHeightResult').value = msg.heightResult;
+
+          // Update code previews
+          updateCodePreview('spacing', {
+            fontSize: msg.fontSize,
+            letterSpacing: msg.logicPixels
+          });
+          
+          updateCodePreview('lineHeight', {
+            fontSize: msg.fontSize,
+            height: msg.heightResult
+          });
         } 
         else if (msg.type === 'clear-fields') {
+          // Clear all input fields
           document.getElementById('baseSize').value = '';
           document.getElementById('spacingValue').value = '';
           document.getElementById('spacingResult').value = '';
+          document.getElementById('lineHeightBaseSize').value = '';
           document.getElementById('lineHeightValue').value = '';
           document.getElementById('lineHeightResult').value = '';
+
+          // Update code previews with placeholder
+          if (msg.showPlaceholder) {
+            const placeholderCode = `// Select a text layer to show code`;
+            
+            // Update both code previews
+            document.querySelectorAll('.code-preview pre code').forEach(preview => {
+              preview.innerHTML = `<span class="comment">${placeholderCode}</span>`;
+            });
+
+            // Disable copy buttons
+            document.querySelectorAll('.copy-snippet-button').forEach(button => {
+              button.disabled = true;
+              button.style.opacity = '0.5';
+            });
+          }
         }
       };
+
+      function updateCodePreview(type, values) {
+        const section = type === 'spacing' ? 'spacingSection' : 'lineHeightSection';
+        const preview = document.querySelector(`#${section} .code-preview pre code`);
+        
+        const snippet = type === 'spacing' 
+          ? `Text(
+  '0.30',
+  style: TextStyle(
+    fontSize: ${values.fontSize},
+    letterSpacing: ${values.letterSpacing},
+  ),
+)`
+          : `Text(
+  '0.30',
+  style: TextStyle(
+    fontSize: ${values.fontSize},
+    height: ${values.height},
+  ),
+)`;
+
+        preview.innerHTML = formatCode(snippet);
+      }
+
+      function formatCode(code) {
+        return code
+          .replace(/fontSize/g, '<span class="property">fontSize</span>')
+          .replace(/letterSpacing|height/g, '<span class="property">$&</span>')
+          .replace(/(\d+\.?\d*)/g, '<span class="number">$1</span>')
+          .replace(/'[^']*'/g, '<span class="string">$&</span>');
+      }
+
+      // Add copy button handler for code snippets
+      document.querySelectorAll('.copy-snippet-button').forEach(button => {
+        button.addEventListener('click', () => {
+          const snippet = button.previousElementSibling.textContent;
+          navigator.clipboard.writeText(snippet);
+
+          // Show toast
+          const toast = document.getElementById('toast');
+          toast.textContent = 'Code snippet copied!';
+          toast.classList.add('show');
+          
+          setTimeout(() => {
+            toast.classList.remove('show');
+            toast.textContent = 'Copied to clipboard!';
+          }, 2000);
+
+          // Update button text
+          button.textContent = 'Copied!';
+          setTimeout(() => {
+            button.textContent = 'Copy';
+          }, 2000);
+        });
+      });
     </script>
   </body>
 </html>
