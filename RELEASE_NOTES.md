@@ -2,7 +2,12 @@
 
 Created by [Sai Maniganahalli](https://github.com/saimaniganahalli) | Design. Code. Hot Chocolate ☕️
 
-## Version 0.2.0 (Current)
+## Version 0.2.1 (Current)
+
+### Bug Fixes
+- Fixed letter spacing calculation when value is 0 (previously incorrectly used font size instead of 0)
+
+## Version 0.2.0
 
 ### New Features
 - Added code preview with syntax highlighting

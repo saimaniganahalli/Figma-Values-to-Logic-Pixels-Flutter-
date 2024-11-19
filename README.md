@@ -2,7 +2,7 @@
 
 A Figma plugin that converts Figma's text styling values (letter spacing and line height) to Flutter-compatible values.
 
-Version: 1.0.0
+Version: 0.2.1
 
 ## Features
 

@@ -60,16 +60,16 @@ figma.on("selectionchange", () => {
     if (typeof letterSpacing === 'object' && letterSpacing !== null) {
         if (letterSpacing.unit === 'PERCENT') {
             spacingValue = `${letterSpacing.value}%`;
-            logicPixels = letterSpacing.value === 0 ? fontSize : (letterSpacing.value / 100) * fontSize;
+            logicPixels = letterSpacing.value * fontSize / 100;
         }
         else if (letterSpacing.unit === 'PIXELS') {
             spacingValue = `${Number(letterSpacing.value).toFixed(2)}px`;
-            logicPixels = letterSpacing.value === 0 ? fontSize : letterSpacing.value;
+            logicPixels = letterSpacing.value;
         }
     }
     else if (typeof letterSpacing === 'number') {
         spacingValue = `${Number(letterSpacing).toFixed(2)}px`;
-        logicPixels = letterSpacing === 0 ? fontSize : letterSpacing;
+        logicPixels = letterSpacing;
     }
     // Update the line height detection section
     const lineHeight = textNode.lineHeight;
