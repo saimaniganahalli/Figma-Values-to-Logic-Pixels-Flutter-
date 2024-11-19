@@ -389,11 +389,33 @@
         });
       });
 
+      // Add this at the start of the script to show placeholder on load
+      window.onload = () => {
+        const placeholderCode = `// Select a text layer to show code`;
+        
+        // Update both code previews
+        document.querySelectorAll('.code-preview pre code').forEach(preview => {
+          preview.innerHTML = `<span class="comment">${placeholderCode}</span>`;
+        });
+
+        // Disable copy buttons
+        document.querySelectorAll('.copy-snippet-button').forEach(button => {
+          button.disabled = true;
+          button.style.opacity = '0.5';
+        });
+      };
+
       // Handle messages from the plugin
       window.onmessage = (event) => {
         const msg = event.data.pluginMessage;
         
         if (msg.type === 'update-values') {
+          // Enable copy buttons first
+          document.querySelectorAll('.copy-snippet-button').forEach(button => {
+            button.disabled = false;
+            button.style.opacity = '1';
+          });
+
           document.getElementById('baseSize').value = msg.fontSize;
           document.getElementById('spacingValue').value = msg.spacingValue;
           document.getElementById('spacingResult').value = msg.logicPixels;
@@ -424,21 +446,18 @@
           document.getElementById('lineHeightValue').value = '';
           document.getElementById('lineHeightResult').value = '';
 
-          // Update code previews with placeholder
-          if (msg.showPlaceholder) {
-            const placeholderCode = `// Select a text layer to show code`;
-            
-            // Update both code previews
-            document.querySelectorAll('.code-preview pre code').forEach(preview => {
-              preview.innerHTML = `<span class="comment">${placeholderCode}</span>`;
-            });
+          const placeholderCode = `// Select a text layer to show code`;
+          
+          // Update both code previews
+          document.querySelectorAll('.code-preview pre code').forEach(preview => {
+            preview.innerHTML = `<span class="comment">${placeholderCode}</span>`;
+          });
 
-            // Disable copy buttons
-            document.querySelectorAll('.copy-snippet-button').forEach(button => {
-              button.disabled = true;
-              button.style.opacity = '0.5';
-            });
-          }
+          // Disable copy buttons
+          document.querySelectorAll('.copy-snippet-button').forEach(button => {
+            button.disabled = true;
+            button.style.opacity = '0.5';
+          });
         }
       };
 
