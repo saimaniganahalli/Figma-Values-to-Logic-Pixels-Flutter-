@@ -1,5 +1,7 @@
 # Release Notes
 
+Created by [Sai Maniganahalli](https://github.com/saimaniganahalli) | Design. Code. Hot Chocolate ☕️
+
 ## Version 0.2.0 (Current)
 
 ### New Features

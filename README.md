@@ -2,6 +2,8 @@
 
 A Figma plugin that converts Figma's letter spacing and line height values to Flutter-compatible values.
 
+Created by [Sai Maniganahalli](https://github.com/saimaniganahalli) | Design. Code. Hot Chocolate ☕️
+
 ## Features
 
 - **Letter Spacing Conversion**: Automatically converts Figma's letter spacing values (px or %) to Flutter's logical pixels
