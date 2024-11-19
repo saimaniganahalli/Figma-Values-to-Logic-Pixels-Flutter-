@@ -185,20 +185,42 @@
       }
 
       .code-preview {
-        background: #1E1E1E;
+        background: transparent;
         border-radius: 8px;
-        padding: 12px 12px 12px 16px;
         margin-top: 16px;
         font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
         font-size: 12px;
         color: #D4D4D4;
         position: relative;
+        overflow: hidden;
+      }
+
+      .code-preview-header {
+        padding: 12px 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        color: #D4D4D4;
+        font-family: 'Manrope', sans-serif;
+        font-size: 13px;
+        font-weight: 400;
+        background: #2D2D2D;
+        border-radius: 8px 8px 0 0;
+      }
+
+      .code-preview-header .dot {
+        margin: 0 6px;
+        color: rgba(255, 255, 255, 0.3);
+      }
+
+      .code-preview-header .language {
+        color: rgba(255, 255, 255, 0.5);
       }
 
       .code-preview pre {
         margin: 0;
         white-space: pre-wrap;
-        padding-right: 64px;
+        padding: 12px 16px;
+        background: #1E1E1E;
+        border-radius: 0 0 8px 8px;
       }
 
       .code-preview code {
@@ -210,26 +232,6 @@
       .code-preview .keyword { color: #569CD6; }
       .code-preview .property { color: #9CDCFE; }
       
-      .copy-snippet-button {
-        position: absolute;
-        top: 12px;
-        right: 12px;
-        background: rgba(255, 255, 255, 0.1);
-        border: none;
-        border-radius: 4px;
-        padding: 4px 8px;
-        color: #fff;
-        font-size: 12px;
-        cursor: pointer;
-        transition: background 0.2s;
-        min-width: 52px;
-        text-align: center;
-      }
-
-      .copy-snippet-button:hover {
-        background: rgba(255, 255, 255, 0.2);
-      }
-
       .tab svg {
         width: 16px;
         height: 16px;
@@ -313,6 +315,9 @@
         </div>
 
         <div class="code-preview">
+          <div class="code-preview-header">
+            Code Snippet <span class="dot">•</span> <span class="language">Flutter</span>
+          </div>
           <pre><code>Text(
           '0.30',
           style: TextStyle(
@@ -320,7 +325,6 @@
             <span id="snippetValue" class="property">letterSpacing</span>: <span class="number">-0.60</span>,
           ),
         )</code></pre>
-          <button class="copy-snippet-button">Copy</button>
         </div>
       </div>
 
@@ -353,6 +357,9 @@
         </div>
 
         <div class="code-preview">
+          <div class="code-preview-header">
+            Code Snippet <span class="dot">•</span> <span class="language">Flutter</span>
+          </div>
           <pre><code>Text(
           '1.20',
           style: TextStyle(
@@ -360,7 +367,6 @@
             <span id="snippetValue" class="property">height</span>: <span class="number">1.20</span>,
           ),
         )</code></pre>
-          <button class="copy-snippet-button">Copy</button>
         </div>
       </div>
 
@@ -481,6 +487,8 @@
   ),
 )`;
 
+        // Store the raw code as a data attribute
+        preview.setAttribute('data-raw-code', snippet);
         preview.innerHTML = formatCode(snippet);
       }
 
@@ -491,30 +499,6 @@
           .replace(/(\d+\.?\d*)/g, '<span class="number">$1</span>')
           .replace(/'[^']*'/g, '<span class="string">$&</span>');
       }
-
-      // Add copy button handler for code snippets
-      document.querySelectorAll('.copy-snippet-button').forEach(button => {
-        button.addEventListener('click', () => {
-          const snippet = button.previousElementSibling.textContent;
-          navigator.clipboard.writeText(snippet);
-
-          // Show toast
-          const toast = document.getElementById('toast');
-          toast.textContent = 'Code snippet copied!';
-          toast.classList.add('show');
-          
-          setTimeout(() => {
-            toast.classList.remove('show');
-            toast.textContent = 'Copied to clipboard!';
-          }, 2000);
-
-          // Update button text
-          button.textContent = 'Copied!';
-          setTimeout(() => {
-            button.textContent = 'Copy';
-          }, 2000);
-        });
-      });
     </script>
   </body>
 </html>
